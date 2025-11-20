@@ -13,7 +13,7 @@ const { remote } = require('webdriverio');
 
     try {
         await browser.url('https://webdriver.io');
-        await smartuiSnapshot(browser, "SS-1");
+        await smartuiSnapshot(browser, "screenshot");
         
     } catch (error) {
         console.error('Error occurred:', error);
