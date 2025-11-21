@@ -30,8 +30,8 @@ Once you have created a SmartUI Project, you can generate screenshots by running
 You can clone the sample repository to run `LambdaTest` automation tests with `SmartUI` and use the `cloud.e2e.js` file present in the `test/specs` folder.
 
 ```bash
-git clone https://github.com/LambdaTest/smartui-wdio-sample
-cd smartui-wdio-sample
+git clone https://github.com/LambdaTest/smartui-sdk-wdio-sample
+cd smartui-sdk-wdio-sample
 ```
 ### **Step 2**: Install the Dependencies
 
@@ -77,7 +77,7 @@ $Env:PROJECT_TOKEN="123456#1234abcd-****-****-****-************"
 You can now configure your project configurations on using various available options to run your tests with the SmartUI integration. To generate the configuration file, please execute the following command:
 
 ```bash
-npx smartui config:create .smartui.json
+npx smartui config:create smartui-web.json
 ```
 
 Once, the configuration file will be created, you will be seeing the default configuration pre-filled in the configuration file:
@@ -135,7 +135,7 @@ const { smartuiSnapshot } = require('@lambdatest/wdio-driver');
 describe('My first visual test', () => {
     it('should use appropriate project token', async () => {
         await browser.url(`https://webdriver.io`)
-        await smartuiSnapshot(browser, "SS-1");
+        await smartuiSnapshot(browser, "screenshot");
 
     })
 })
@@ -146,7 +146,7 @@ describe('My first visual test', () => {
 Execute `visual regression tests` on SmartUI using the following commands
 
 ```bash
-npx smartui --config .smartui.json exec -- wdio run ./wdio.conf.js
+npx smartui exec -- wdio run ./wdio.conf.js --config smartui-web.json
 ```
 
 - You can use your custom runner command in place of `wdio run ./wdio.conf.js`
