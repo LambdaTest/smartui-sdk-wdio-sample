@@ -1,172 +1,346 @@
-# SmartUI SDK sample for WebdriverIO
+# SmartUI SDK Sample for WebdriverIO
 
-Welcome to the world of simplified visual testing with the SmartUI SDK. 
+Welcome to the SmartUI SDK sample for WebdriverIO. This repository demonstrates how to integrate SmartUI visual regression testing with WebdriverIO.
 
-Integrating seamlessly into your existing WebdriverIO testing suite, SmartUI SDK revolutionizes the way you approach visual regression testing. Our robust solution empowers you to effortlessly capture, compare, and analyze screenshots across a multitude of browsers and resolutions, ensuring comprehensive coverage and accuracy in your visual testing endeavors.
+## Repository Structure
 
-## Pre-requisites for running tests through SmartUI SDK
+```
+smartui-sdk-wdio-sample/
+├── test/
+│   └── specs/
+│       ├── cloud.e2e.js      # Cloud test file
+│       └── local.e2e.js       # Local test file
+├── wdio.conf.js               # WebdriverIO configuration
+├── package.json               # Dependencies
+└── smartui-web.json          # SmartUI config (create with npx smartui config:create)
+```
 
-- Basic understanding of Command Line Interface and WebdriverIO is required.
-- Login to [LambdaTest SmartUI](https://smartui.lambdatest.com/) with your credentials.
+## 1. Prerequisites and Environment Setup
 
-The following steps will guide you in running your first Visual Regression test on LambdaTest platform using SmartUI WebdriverIO SDK integration.
+### Prerequisites
 
-## Create a SmartUI Project
+- Node.js installed
+- LambdaTest account credentials (for Cloud tests)
+- Chrome browser (for Local tests)
 
-The first step is to create a project with the application in which we will combine all your builds run on the project. To create a SmartUI Project, follow these steps:
+### Environment Setup
 
-1. Go to [Projects page](https://smartui.lambdatest.com/)
-2. Click on the `new project` button
-3. Select the platform as <b>CLI</b> for executing your `SDK` tests.
-4. Add name of the project, approvers for the changes found, tags for any filter or easy navigation.
-5. Click on the **Submit**.
+**For Cloud:**
+```bash
+export LT_USERNAME='your_username'
+export LT_ACCESS_KEY='your_access_key'
+export PROJECT_TOKEN='your_project_token'
+```
 
-## Steps to run your first test
+**For Local:**
+```bash
+export PROJECT_TOKEN='your_project_token'
+```
 
-Once you have created a SmartUI Project, you can generate screenshots by running automation scripts. Follow the below steps to successfully generate screenshots
+## 2. Initial Setup and Dependencies
 
-### **Step 1:** Create/Update your test
-
-You can clone the sample repository to run `LambdaTest` automation tests with `SmartUI` and use the `cloud.e2e.js` file present in the `test/specs` folder.
+### Clone the Repository
 
 ```bash
 git clone https://github.com/LambdaTest/smartui-sdk-wdio-sample
 cd smartui-sdk-wdio-sample
 ```
-### **Step 2**: Install the Dependencies
 
-Install required NPM modules for `LambdaTest Smart UI WebdriverIO SDK` in your **Frontend** project.
+### Install Dependencies
 
-```bash
-npm i @lambdatest/smartui-cli @lambdatest/wdio-driver webdriverio wdio-lambdatest-service
-```
-
-
-**If you are using Lambdatest automation grid to run webdriverio, please update the required configuration in the `capability configuration (wdio.conf.js) file`.**
-
-
-### **Step 3:** Configure your Project Token
-
-Setup your project token show in the **SmartUI** app after, creating your project.
-
-<Tabs className="docs__val" groupId="language">
-<TabItem value="MacOS/Linux" label="MacOS/Linux" default>
+The repository already includes the required dependencies in `package.json`. Install them:
 
 ```bash
-export PROJECT_TOKEN="123456#1234abcd-****-****-****-************"
+npm install
 ```
 
-</TabItem>
-<TabItem value="Windows" label="Windows - CMD">
+**Dependencies included:**
+- `@lambdatest/smartui-cli` - SmartUI CLI
+- `@lambdatest/wdio-driver` - SmartUI WebdriverIO driver
+- `@wdio/cli` - WebdriverIO CLI
+- `webdriverio` - WebdriverIO framework
+- `wdio-lambdatest-service` - LambdaTest service for WebdriverIO
 
-```bash
-set PROJECT_TOKEN="123456#1234abcd-****-****-****-************"
-```
-
-</TabItem>
-<TabItem value="Powershell" label="Windows-PS">
-
-```bash
-$Env:PROJECT_TOKEN="123456#1234abcd-****-****-****-************"
-```
-</TabItem>
-</Tabs>
-
-### **Step 4:** Create and Configure SmartUI Config
-
-You can now configure your project configurations on using various available options to run your tests with the SmartUI integration. To generate the configuration file, please execute the following command:
+### Create SmartUI Configuration
 
 ```bash
 npx smartui config:create smartui-web.json
 ```
 
-Once, the configuration file will be created, you will be seeing the default configuration pre-filled in the configuration file:
+## 3. Steps to Integrate Screenshot Commands into Codebase
 
-```json title="/smartui-sdk-project/.smartui.json"
+The SmartUI screenshot function is already implemented in the repository.
+
+**Cloud Test** (`test/specs/cloud.e2e.js`):
+```javascript
+const { smartuiSnapshot } = require('@lambdatest/wdio-driver');
+
+await browser.url(`https://webdriver.io`)
+await smartuiSnapshot(browser, "screenshot");
+```
+
+**Local Test** (`test/specs/local.e2e.js`):
+```javascript
+const { smartuiSnapshot } = require('@lambdatest/wdio-driver');
+
+await browser.url('https://webdriver.io');
+await smartuiSnapshot(browser, "screenshot");
+```
+
+**Note**: The code is already configured and ready to use. You can modify the URL and screenshot name if needed.
+
+## 4. Execution and Commands
+
+### Local Execution
+
+```bash
+npx smartui exec -- node test/specs/local.e2e.js
+```
+
+### Cloud Execution
+
+```bash
+npx smartui exec -- wdio run ./wdio.conf.js
+```
+
+## Test Files
+
+### Cloud Test (`test/specs/cloud.e2e.js`)
+
+- Connects to LambdaTest Cloud using WebdriverIO
+- Reads credentials from environment variables (`LT_USERNAME`, `LT_ACCESS_KEY`)
+- Uses Mocha framework
+- Takes screenshot with name: `screenshot`
+
+### Local Test (`test/specs/local.e2e.js`)
+
+- Runs WebdriverIO locally using Chrome
+- Requires Chrome browser installed
+- Takes screenshot with name: `screenshot`
+
+## Configuration
+
+### WebdriverIO Config (`wdio.conf.js`)
+
+The configuration file is pre-configured for LambdaTest Cloud:
+- Hostname: `hub.lambdatest.com`
+- Reads credentials from environment variables
+- Excludes `local.e2e.js` from cloud runs
+- Uses Mocha framework
+
+### SmartUI Config (`smartui-web.json`)
+
+Create the SmartUI configuration file using:
+```bash
+npx smartui config:create smartui-web.json
+```
+
+## Best Practices
+
+### Screenshot Naming
+
+- Use descriptive, unique names for each screenshot
+- Include test context and state
+- Avoid special characters
+- Use consistent naming conventions
+
+### When to Take Screenshots
+
+- After critical user interactions
+- Before and after form submissions
+- At different viewport sizes
+- After page state changes
+
+### WebdriverIO-Specific Tips
+
+- Use `browser.waitUntil()` before screenshots
+- Take screenshots after page loads completely
+- Use `browser.setWindowSize()` for responsive testing
+- Combine with WebdriverIO assertions
+
+### Example: Screenshot After Interaction
+
+```javascript
+const { smartuiSnapshot } = require('@lambdatest/wdio-driver');
+
+describe('Homepage Tests', () => {
+  it('Should take screenshot after search', async () => {
+    await browser.url('https://www.lambdatest.com');
+    await browser.waitUntil(async () => {
+      return (await browser.$('#search')).isDisplayed();
+    });
+    
+    await browser.$('#search').setValue('WebdriverIO');
+    await browser.$('#search-button').click();
+    await browser.waitUntil(async () => {
+      return (await browser.$('.results')).isDisplayed();
+    });
+    
+    await smartuiSnapshot(browser, "search-results");
+  });
+});
+```
+
+## Common Use Cases
+
+### Responsive Testing
+
+```javascript
+describe('Responsive Tests', () => {
+  it('Desktop View', async () => {
+    await browser.setWindowSize(1920, 1080);
+    await browser.url('https://www.lambdatest.com');
+    await smartuiSnapshot(browser, 'homepage-desktop');
+  });
+
+  it('Tablet View', async () => {
+    await browser.setWindowSize(768, 1024);
+    await browser.url('https://www.lambdatest.com');
+    await smartuiSnapshot(browser, 'homepage-tablet');
+  });
+
+  it('Mobile View', async () => {
+    await browser.setWindowSize(375, 667);
+    await browser.url('https://www.lambdatest.com');
+    await smartuiSnapshot(browser, 'homepage-mobile');
+  });
+});
+```
+
+### Multi-Step Flow Testing
+
+```javascript
+describe('Checkout Flow', () => {
+  it('Complete Checkout Visual Test', async () => {
+    await browser.url('https://example.com/checkout');
+    await smartuiSnapshot(browser, 'checkout-step-1');
+    
+    await browser.$('#next-step').click();
+    await browser.waitUntil(async () => {
+      return (await browser.$('#step-2')).isDisplayed();
+    });
+    await smartuiSnapshot(browser, 'checkout-step-2');
+  });
+});
+```
+
+## CI/CD Integration
+
+### GitHub Actions Example
+
+```yaml
+name: WebdriverIO SmartUI Tests
+
+on: [push, pull_request]
+
+jobs:
+  visual-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run WebdriverIO with SmartUI (Local)
+        env:
+          PROJECT_TOKEN: ${{ secrets.SMARTUI_PROJECT_TOKEN }}
+        run: |
+          npx smartui exec -- node test/specs/local.e2e.js
+      
+      - name: Run WebdriverIO with SmartUI (Cloud)
+        env:
+          PROJECT_TOKEN: ${{ secrets.SMARTUI_PROJECT_TOKEN }}
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+        run: |
+          npx smartui exec -- wdio run ./wdio.conf.js
+```
+
+## Troubleshooting
+
+### Issue: `smartuiSnapshot is not a function`
+
+**Solution**: Ensure the driver is imported:
+```javascript
+const { smartuiSnapshot } = require('@lambdatest/wdio-driver');
+```
+
+### Issue: Screenshots not captured
+
+**Solution**:
+1. Verify `PROJECT_TOKEN` is set
+2. Add waits before screenshots
+3. Ensure test completes successfully
+4. Check WebdriverIO configuration
+
+### Issue: `PROJECT_TOKEN is required`
+
+**Solution**: Set the environment variable:
+```bash
+export PROJECT_TOKEN='your_project_token'
+```
+
+### Issue: Cloud execution fails
+
+**Solution**:
+1. Verify `wdio.conf.js` is configured correctly
+2. Check `LT_USERNAME` and `LT_ACCESS_KEY` are set
+3. Verify LambdaTest service is configured in `wdio.conf.js`
+
+## Configuration Tips
+
+### WebdriverIO Config (`wdio.conf.js`)
+
+Ensure LambdaTest service is configured:
+```javascript
+services: [
+  ['lambdatest', {
+    tunnel: false
+  }]
+],
+
+capabilities: [{
+  browserName: 'chrome',
+  'LT:Options': {
+    username: process.env.LT_USERNAME,
+    accessKey: process.env.LT_ACCESS_KEY,
+    platformName: 'Windows 10',
+    build: 'WebdriverIO SmartUI Build'
+  }
+}]
+```
+
+### Optimizing `smartui-web.json`
+
+```json
 {
   "web": {
-    "browsers": [
-      "chrome",
-      "firefox",
-      "safari",
-      "edge"
-    ],
+    "browsers": ["chrome", "firefox", "edge"],
     "viewports": [
-      [
-        1920
-      ],
-      [
-        1366
-      ],
-      [
-        1028
-      ]
-    ] // Full Page screenshots are captured by default for web viewports
-  },
-  "mobile": {
-    "devices": [
-      "iPhone 14",  //iPhone 14 viewport
-      "Galaxy S24"  //Galaxy S24 viewport
+      [1920, 1080],
+      [1366, 768],
+      [375, 667]
     ],
-    "fullPage": true, //Full Page is true by default for mobile viewports
-    "orientation": "portrait" //Change to "landscape" for landscape snapshot
-  },
-  "waitForTimeout": 1000, //Optional (Should only be used in case lazy-loading/async components are present)
-  "waitForPageRender": 50000, //Optional (Should only be used in case of websites which take more than 30s to load)
-  "enableJavaScript": false, //Enable javascript for all the screenshots of the project
-  "allowedHostnames": [] //Additional hostnames to capture assets from
+    "waitForPageRender": 30000,
+    "waitForTimeout": 2000
+  }
 }
 ```
 
-- For capturing fullpage or viewport screenshots, please refer to this [documentation](/docs/smartui-sdk-config-options/#12-viewports)
-- For the list of available mobile viewports, please refer to this [documentation](/docs/smartui-sdk-config-options/#list-of-supported-device-viewports)
-- For more information about SmartUI config global options, please refer to this [documentation](/docs/smartui-sdk-config-options/#3-global-options-optional).
+## View Results
 
+After running the tests, visit your SmartUI project dashboard to view the captured screenshots and compare them with baseline builds.
 
-### **Step 5:** Adding SmartUI function to take screenshot
+## Additional Resources
 
-- You can incorporate SmartUI into your custom `WebdriverIO` automation test (any platform) script by adding the `smartuiSnapshot` function in the required segment of WebdriverIO script of which we would like to take the screenshot, as shown below: 
-  
-
-```js
-const { expect, browser, $ } = require('@wdio/globals')
-const { smartuiSnapshot } = require('@lambdatest/wdio-driver');
-
-describe('My first visual test', () => {
-    it('should use appropriate project token', async () => {
-        await browser.url(`https://webdriver.io`)
-        await smartuiSnapshot(browser, "screenshot");
-
-    })
-})
-```
-
-### **Step 6:** Execute the Tests on SmartUI Cloud
-
-Execute `visual regression tests` on SmartUI using the following commands
-
-```bash
-npx smartui exec -- wdio run ./wdio.conf.js --config smartui-web.json
-```
-
-- You can use your custom runner command in place of `wdio run ./wdio.conf.js`
-- You may use the `npx smartui --help` command in case you are facing issues during the execution of SmartUI commands in the CLI.
-
-
-##  View SmartUI Results
-
-You have successfully integrated SmartUI SDK with your WebdriverIO tests. Visit your SmartUI project to view builds and compare snapshots between different test runs.
-
-You can see the Smart UI dashboard to view the results. This will help you identify the Mismatches from the existing `Baseline` build and do the required visual testing.
-
-
-## Arguments supported in the `smartUISnapshot` function
-
-The following are the different options which are currently supported:
-
-| Key                       | Description                                                                                                               | 
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `browser` (instance)    | The instance of the browser used in your tests. |
-| `"Screenshot Name"` (string)    | Specify a name for the screenshot in your tests to match the same screenshot with the name from your baseline. |
-| `options` (object)    | Specify one or a combination of selectors in the `ignoreDOM` or `selectDOM` objects. These selectors can be based on `HTML DOM IDs, CSS classes, CSS selectors, or XPaths` used by your webpage. They define elements that should be excluded from or included in the visual comparison.|
-
+- [SmartUI WebdriverIO Onboarding Guide](https://www.lambdatest.com/support/docs/smartui-onboarding-webdriverio/)
+- [WebdriverIO Documentation](https://webdriver.io/)
+- [LambdaTest WebdriverIO Documentation](https://www.lambdatest.com/support/docs/webdriverio-testing/)
+- [SmartUI Dashboard](https://smartui.lambdatest.com/)
+- [LambdaTest Community](https://community.lambdatest.com/)
