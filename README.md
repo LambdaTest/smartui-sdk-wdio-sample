@@ -1,4 +1,4 @@
-# SmartUI SDK Sample for WebdriverIO
+# SmartUI SDK Sample for WebdriverIO — TestMu AI (Formerly LambdaTest)
 
 Welcome to the SmartUI SDK sample for WebdriverIO. This repository demonstrates how to integrate SmartUI visual regression testing with WebdriverIO.
 
@@ -20,7 +20,7 @@ smartui-sdk-wdio-sample/
 ### Prerequisites
 
 - Node.js installed
-- LambdaTest account credentials (for Cloud tests)
+- TestMu AI account credentials (for Cloud tests)
 - Chrome browser (for Local tests)
 
 ### Environment Setup
@@ -59,7 +59,7 @@ npm install
 - `@lambdatest/wdio-driver` - SmartUI WebdriverIO driver
 - `@wdio/cli` - WebdriverIO CLI
 - `webdriverio` - WebdriverIO framework
-- `wdio-lambdatest-service` - LambdaTest service for WebdriverIO
+- `wdio-lambdatest-service` - TestMu AI service for WebdriverIO
 
 ### Create SmartUI Configuration
 
@@ -107,7 +107,7 @@ npx smartui exec -- wdio run ./wdio.conf.js
 
 ### Cloud Test (`test/specs/cloud.e2e.js`)
 
-- Connects to LambdaTest Cloud using WebdriverIO
+- Connects to TestMu AI Cloud using WebdriverIO
 - Reads credentials from environment variables (`LT_USERNAME`, `LT_ACCESS_KEY`)
 - Uses Mocha framework
 - Takes screenshot with name: `screenshot`
@@ -122,7 +122,7 @@ npx smartui exec -- wdio run ./wdio.conf.js
 
 ### WebdriverIO Config (`wdio.conf.js`)
 
-The configuration file is pre-configured for LambdaTest Cloud:
+The configuration file is pre-configured for TestMu AI Cloud:
 - Hostname: `hub.lambdatest.com`
 - Reads credentials from environment variables
 - Excludes `local.e2e.js` from cloud runs
@@ -291,13 +291,13 @@ export PROJECT_TOKEN='your_project_token'
 **Solution**:
 1. Verify `wdio.conf.js` is configured correctly
 2. Check `LT_USERNAME` and `LT_ACCESS_KEY` are set
-3. Verify LambdaTest service is configured in `wdio.conf.js`
+3. Verify TestMu AI service is configured in `wdio.conf.js`
 
 ## Configuration Tips
 
 ### WebdriverIO Config (`wdio.conf.js`)
 
-Ensure LambdaTest service is configured:
+Ensure TestMu AI service is configured:
 ```javascript
 services: [
   ['lambdatest', {
@@ -339,8 +339,27 @@ After running the tests, visit your SmartUI project dashboard to view the captur
 
 ## Additional Resources
 
-- [SmartUI WebdriverIO Onboarding Guide](https://www.lambdatest.com/support/docs/smartui-onboarding-webdriverio/)
+- [SmartUI WebdriverIO Onboarding Guide](https://www.testmuai.com/support/docs/smartui-onboarding-webdriverio/)
 - [WebdriverIO Documentation](https://webdriver.io/)
-- [LambdaTest WebdriverIO Documentation](https://www.lambdatest.com/support/docs/webdriverio-testing/)
+- [TestMu AI WebdriverIO Documentation](https://www.testmuai.com/support/docs/webdriverio-testing/)
 - [SmartUI Dashboard](https://smartui.lambdatest.com/)
-- [LambdaTest Community](https://community.lambdatest.com/)
+- [TestMu AI Community](https://community.testmuai.com/)
+
+## 🚀 [LambdaTest is Now TestMu AI](https://www.testmuai.com/lambdatest-is-now-testmuai/)
+
+👋 Welcome to TestMu AI, the next evolution of LambdaTest. As of January 2026, LambdaTest has officially rebranded to TestMu AI. We have evolved from a cross-browser testing cloud into a unified, AI-native quality engineering platform designed for the modern DevOps era.
+
+Whether you have been part of the LambdaTest community for years or are just discovering TestMu AI, our mission remains the same: to help you ship faster with high-scale test execution, autonomous testing, and deep quality analytics.
+
+**🔄 Our Rebrand Journey**
+
+We chose the name TestMu AI to reflect our shift towards intelligent, autonomous testing. While our identity has changed, our core technology and commitment to the testing community stay the same.
+
+**✨ Specialties**
+
+- 🤖 AI-Native Test Execution (Formerly LambdaTest)
+- ⚡ Autonomous Test Automation
+- 🌐 Cross-Browser & Mobile Testing
+- 📊 Unified Quality Intelligence
+
+👉 Find [LambdaTest's New Home](https://www.testmuai.com/).
