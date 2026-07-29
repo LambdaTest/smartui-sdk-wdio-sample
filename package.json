@@ -18,7 +18,7 @@
     "webdriverio": "^8.36.0"
   },
   "dependencies": {
-    "@lambdatest/smartui-cli": "^3.0.7",
+    "@lambdatest/smartui-cli": "^4.1.77",
     "@lambdatest/wdio-driver": "^1.0.6",
     "wdio-lambdatest-service": "^2.1.3"
   }
